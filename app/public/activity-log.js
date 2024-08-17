@@ -1,40 +1,50 @@
 document.addEventListener('DOMContentLoaded', function() {
     const activityLogElement = document.getElementById('activity-log');
-    const addActivityButton = document.getElementById('add-activity');
+    const addActivityForm = document.getElementById('add-activity-form');
+    const showAddActivityFormButton = document.getElementById('show-add-activity-form');
+    const activityForm = document.getElementById('activity-form');
+    const logoutButton = document.getElementById('logout-button');
+
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+
+    if (!user) {
+        window.location.href = 'login.html';
+        return;
+    }
 
     function loadActivityLog() {
-        const activities = JSON.parse(localStorage.getItem('activityLog')) || [];
+        const activities = JSON.parse(localStorage.getItem(`activityLog_${user.username}`)) || [];
         activityLogElement.innerHTML = activities.map(activity => `
             <li>
                 <strong>Description:</strong> ${activity.description}<br>
+                <strong>Type:</strong> ${activity.type}<br>
                 <strong>Date:</strong> ${activity.date}
             </li>
         `).join('');
     }
 
-    function addActivity() {
-        const description = prompt('Enter activity description:');
+    function addActivity(event) {
+        event.preventDefault();
+        const description = document.getElementById('activity-description').value;
+        const type = document.getElementById('activity-type').value;
         const date = new Date().toLocaleString();
-        if (description) {
-            const activities = JSON.parse(localStorage.getItem('activityLog')) || [];
-            activities.push({ description, date });
-            localStorage.setItem('activityLog', JSON.stringify(activities));
-            loadActivityLog();
-            updateDashboard();
-        }
+
+        const activities = JSON.parse(localStorage.getItem(`activityLog_${user.username}`)) || [];
+        activities.push({ description, type, date });
+        localStorage.setItem(`activityLog_${user.username}`, JSON.stringify(activities));
+        loadActivityLog();
     }
 
-    function updateDashboard() {
-        const totalPipelines = (JSON.parse(localStorage.getItem('pipelines')) || []).length;
-        const activePipelines = totalPipelines; // Example calculation
-        localStorage.setItem('dashboardData', JSON.stringify({
-            totalPipelines,
-            activePipelines,
-            recentActivity: JSON.parse(localStorage.getItem('activityLog')) || []
-        }));
-    }
+    showAddActivityFormButton.addEventListener('click', function() {
+        addActivityForm.style.display = addActivityForm.style.display === 'none' ? 'block' : 'none';
+    });
 
-    addActivityButton.addEventListener('click', addActivity);
+    activityForm.addEventListener('submit', addActivity);
+
+    logoutButton.addEventListener('click', function() {
+        localStorage.removeItem('loggedInUser');
+        window.location.href = 'login.html';
+    });
 
     loadActivityLog();
 });

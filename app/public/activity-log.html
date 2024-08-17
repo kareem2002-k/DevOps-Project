@@ -8,36 +8,34 @@
 </head>
 <body>
     <header>
-        <h1>Activity Log</h1>
         <nav>
-            <a href="index.html">Dashboard</a>
-            <a href="pipeline-management.html">Pipeline Management</a>
-            <a href="activity-log.html">Activity Log</a>
+            <ul>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="pipeline-management.html">Pipeline Management</a></li>
+                <li><a href="activity-log.html">Activity Log</a></li>
+                <li><a href="login.html" id="logout-button">Logout</a></li>
+            </ul>
         </nav>
+        <h1>Activity Log</h1>
     </header>
     <main>
-        <section class="activity-log">
-            <h2>Recent Activity</h2>
-            <ul id="activity-log">
-                <li>Loading...</li>
-            </ul>
+        <section>
             <button id="show-add-activity-form">Add Activity</button>
-            <div id="add-activity-form" class="form-container">
-                <h3>Add New Activity</h3>
-                <form id="activity-form">
-                    <label for="activity-description">Description:</label>
-                    <input type="text" id="activity-description" required>
-                    <label for="activity-type">Type:</label>
-                    <select id="activity-type" required>
-                        <option value="Deployment">Deployment</option>
-                        <option value="Update">Update</option>
-                        <option value="Incident">Incident</option>
-                    </select>
-                    <button type="submit">Add Activity</button>
-                </form>
-            </div>
+            <form id="add-activity-form" style="display: none;">
+                <h2>Add New Activity</h2>
+                <label for="activity-description">Description:</label>
+                <input type="text" id="activity-description" required>
+                <label for="activity-type">Type:</label>
+                <select id="activity-type" required>
+                    <option value="development">Development</option>
+                    <option value="testing">Testing</option>
+                    <option value="deployment">Deployment</option>
+                </select>
+                <button type="submit">Add Activity</button>
+            </form>
+            <ul id="activity-log"></ul>
         </section>
+        <script src="activity-log.js"></script>
     </main>
-    <script src="activity-log.js"></script>
 </body>
 </html>

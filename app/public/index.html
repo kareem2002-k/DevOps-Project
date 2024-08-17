@@ -3,39 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevOps Dashboard</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>DevOps Dashboard</h1>
         <nav>
-            <a href="index.html">Dashboard</a>
-            <a href="pipeline-management.html">Pipeline Management</a>
-            <a href="activity-log.html">Activity Log</a>
+            <ul>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="pipeline-management.html">Pipeline Management</a></li>
+                <li><a href="activity-log.html">Activity Log</a></li>
+                <li><a href="login.html" id="logout-button">Logout</a></li>
+            </ul>
         </nav>
+        <h1>Dashboard</h1>
     </header>
     <main>
-        <section class="overview">
-            <h2>Overview</h2>
-            <div class="stats">
-                <div class="stat">
-                    <h3>Total Pipelines</h3>
-                    <p id="total-pipelines">Loading...</p>
-                </div>
-                <div class="stat">
-                    <h3>Active Pipelines</h3>
-                    <p id="active-pipelines">Loading...</p>
-                </div>
-                <div class="stat">
-                    <h3>Recent Activity</h3>
-                    <ul id="recent-activity">
-                        <li>Loading...</li>
-                    </ul>
-                </div>
-            </div>
+        <section>
+            <h2>Dashboard Overview</h2>
+            <p>Total Pipelines: <span id="total-pipelines">0</span></p>
+            <p>Total Activities: <span id="total-activities">0</span></p>
+            <p>Recent Activity:</p>
+            <ul id="recent-activities"></ul>
         </section>
+        <script src="dashboard.js"></script>
     </main>
-    <script src="dashboard.js"></script>
 </body>
 </html>

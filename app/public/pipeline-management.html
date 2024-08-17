@@ -8,36 +8,34 @@
 </head>
 <body>
     <header>
-        <h1>Pipeline Management</h1>
         <nav>
-            <a href="index.html">Dashboard</a>
-            <a href="pipeline-management.html">Pipeline Management</a>
-            <a href="activity-log.html">Activity Log</a>
+            <ul>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="pipeline-management.html">Pipeline Management</a></li>
+                <li><a href="activity-log.html">Activity Log</a></li>
+                <li><a href="login.html" id="logout-button">Logout</a></li>
+            </ul>
         </nav>
+        <h1>Pipeline Management</h1>
     </header>
     <main>
-        <section class="pipeline-list">
-            <h2>Pipeline List</h2>
-            <ul id="pipeline-list">
-                <li>Loading...</li>
-            </ul>
+        <section>
             <button id="show-add-pipeline-form">Add Pipeline</button>
-            <div id="add-pipeline-form" class="form-container">
-                <h3>Add New Pipeline</h3>
-                <form id="pipeline-form">
-                    <label for="pipeline-name">Name:</label>
-                    <input type="text" id="pipeline-name" required>
-                    <label for="pipeline-description">Description:</label>
-                    <textarea id="pipeline-description" required></textarea>
-                    <label for="pipeline-tools">Tools:</label>
-                    <input type="text" id="pipeline-tools" required>
-                    <label for="pipeline-status">Status:</label>
-                    <input type="text" id="pipeline-status" required>
-                    <button type="submit">Add Pipeline</button>
-                </form>
-            </div>
+            <form id="add-pipeline-form" style="display: none;">
+                <h2>Add New Pipeline</h2>
+                <label for="pipeline-name">Name:</label>
+                <input type="text" id="pipeline-name" required>
+                <label for="pipeline-description">Description:</label>
+                <input type="text" id="pipeline-description" required>
+                <label for="pipeline-tools">Tools:</label>
+                <input type="text" id="pipeline-tools">
+                <label for="pipeline-status">Status:</label>
+                <input type="text" id="pipeline-status">
+                <button type="submit">Add Pipeline</button>
+            </form>
+            <ul id="pipeline-list"></ul>
         </section>
+        <script src="pipeline-management.js"></script>
     </main>
-    <script src="pipeline-management.js"></script>
 </body>
 </html>

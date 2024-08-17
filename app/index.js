@@ -6,6 +6,10 @@ const port = 3000;
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Redirect to login page if no path is specified
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
 
 // Start the server
 if (require.main === module) {

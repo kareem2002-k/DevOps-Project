@@ -2,10 +2,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const pipelineListElement = document.getElementById('pipeline-list');
     const addPipelineForm = document.getElementById('add-pipeline-form');
     const showAddPipelineFormButton = document.getElementById('show-add-pipeline-form');
-    const pipelineForm = document.getElementById('pipeline-form');
+    const logoutButton = document.getElementById('logout-button');
+
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+
+    if (!user) {
+        window.location.href = 'login.html';
+        return;
+    }
 
     function loadPipelines() {
-        const user = JSON.parse(localStorage.getItem('loggedInUser'));
         const pipelines = JSON.parse(localStorage.getItem(`pipelines_${user.username}`)) || [];
         pipelineListElement.innerHTML = pipelines.map(pipeline => `
             <li>
@@ -24,19 +30,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const tools = document.getElementById('pipeline-tools').value;
         const status = document.getElementById('pipeline-status').value;
 
-        const user = JSON.parse(localStorage.getItem('loggedInUser'));
         const pipelines = JSON.parse(localStorage.getItem(`pipelines_${user.username}`)) || [];
         pipelines.push({ name, description, tools, status });
         localStorage.setItem(`pipelines_${user.username}`, JSON.stringify(pipelines));
         loadPipelines();
+        addPipelineForm.reset(); // Clear the form after submission
     }
 
     showAddPipelineFormButton.addEventListener('click', function() {
         addPipelineForm.style.display = addPipelineForm.style.display === 'none' ? 'block' : 'none';
     });
 
-    pipelineForm.addEventListener('submit', addPipeline);
+    addPipelineForm.addEventListener('submit', addPipeline); // Ensure form element is correctly referenced
+
+    logoutButton.addEventListener('click', function() {
+        localStorage.removeItem('loggedInUser');
+        window.location.href = 'login.html';
+    });
 
     loadPipelines();
-
 });
