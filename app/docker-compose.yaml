@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   app:
     build: .
@@ -6,5 +8,11 @@ services:
     working_dir: /app
     ports:
       - "3000:3000"
-
-    
+    volumes:
+      - .:/app
+    environment:
+      - NODE_ENV=production
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      retries: 3
