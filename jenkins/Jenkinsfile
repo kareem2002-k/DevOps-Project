@@ -2,14 +2,8 @@ pipeline {
     agent any // Runs on any available agent
 
     environment {
-        // Define environment variables here
-        NODE_ENV = 'production'
+        // Define environment variables here, if needed
         BUILD_DIR = 'build'
-    }
-
-    tools {
-        // Specify tools needed for the build, e.g., NodeJS
-        nodejs 'NodeJS' // Assuming you have a NodeJS tool configured in Jenkins
     }
 
     stages {
@@ -20,18 +14,9 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                // Run build commands
-                echo 'Building...'
-                sh 'npm install'
-                sh 'npm run build'
-            }
-        }
-
         stage('Docker Build') {
             steps {
-                dir('../app') {
+                dir('../app') { // Update path to where your Dockerfile is located
                     // Change directory to where Dockerfile is located
                     echo 'Building Docker image...'
                     sh 'docker build -t my-app-image .'
@@ -41,7 +26,7 @@ pipeline {
 
         stage('Docker Run') {
             steps {
-                dir('../app') {
+                dir('../app') { // Update path to where your Dockerfile is located
                     // Change directory to where Dockerfile is located
                     echo 'Running Docker container...'
                     sh 'docker run --rm -d -p 3000:3000 my-app-image'
@@ -54,14 +39,6 @@ pipeline {
                 // Archive build artifacts for later use
                 echo 'Archiving artifacts...'
                 archiveArtifacts artifacts: "${env.BUILD_DIR}/**", allowEmptyArchive: true
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                // Deploy the build artifact
-                echo 'Deploying...'
-                sh 'npm run deploy'
             }
         }
     }
