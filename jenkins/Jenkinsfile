@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                nodejs('node-18') {                    sh '''
+                nodejs('node-22') {                    sh '''
                     cd app_nodejs
                     npm ci
                     npm test
