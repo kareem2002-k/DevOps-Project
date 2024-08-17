@@ -5,9 +5,21 @@ pipeline {
         stage('Test') {
             steps {
                 nodejs('node-22') {                    sh '''
-                    cd app_nodejs
+                    cd app
                     npm ci
                     npm test
+                    '''
+                }
+            }
+        }
+
+        stage('Docker Test'){
+            steps{
+                docker('Docker'){
+                    sh '''
+                    cd app 
+                    docker-compose build
+                    docker-compose up
                     '''
                 }
             }
