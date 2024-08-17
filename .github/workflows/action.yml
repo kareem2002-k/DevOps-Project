@@ -26,11 +26,6 @@ jobs:
         run: npm i  # Use `npm ci` to install dependencies from package-lock.json
 
       - name: Run tests
-        run: npm test  # Replace with your test command if different
+        run: npm run test  # Replace with your test command if different
 
-      - name: Upload coverage report
-        if: success() && steps.test.outputs.coverage-report
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-report
-          path: path/to/coverage/report  # Adjust this path to where your coverage report is generated
+    
