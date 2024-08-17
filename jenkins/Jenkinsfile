@@ -4,8 +4,13 @@ pipeline {
     stages {
         stage('Test Docker') {
             steps {
-                sh 'docker --version'
-                sh 'docker-compose --version'
+                nodejs('node-22') {
+                    sh '''
+                    cd app
+                    npm ci
+                    npm test
+                    '''
+                }
             }
         }
     }
