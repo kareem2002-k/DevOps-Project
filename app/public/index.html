@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html">Dashboard</a>
+        <a href="pipelines.html">Pipelines</a>
+        <a href="environments.html">Environments</a>
+    </nav>
+    <div class="container">
+        <h1>Dashboard Overview</h1>
+        <div class="stats">
+            <div class="stat-box">
+                <h3>Total Pipelines</h3>
+                <p id="totalPipelines">0</p>
+            </div>
+            <div class="stat-box">
+                <h3>Active Pipelines</h3>
+                <p id="activePipelines">0</p>
+            </div>
+            <div class="stat-box">
+                <h3>Last Deployment Status</h3>
+                <p id="lastDeploymentStatus">N/A</p>
+            </div>
+        </div>
+        <div class="recent-activity">
+            <h2>Recent Activity</h2>
+            <ul id="recentActivity"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
