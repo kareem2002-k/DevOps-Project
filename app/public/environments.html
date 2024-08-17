@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Monitoring</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html">Dashboard</a>
+        <a href="pipelines.html">Pipelines</a>
+        <a href="environments.html">Environments</a>
+    </nav>
+    <div class="container">
+        <h1>Monitor Environments</h1>
+        <div class="environment-list">
+            <div class="environment">
+                <h3>Production</h3>
+                <p>Status: <span id="productionStatus">Healthy</span></p>
+            </div>
+            <div class="environment">
+                <h3>Staging</h3>
+                <p>Status: <span id="stagingStatus">Healthy</span></p>
+            </div>
+            <div class="environment">
+                <h3>Development</h3>
+                <p>Status: <span id="developmentStatus">Healthy</span></p>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="environments.js"></script>
+</body>
+</html>
