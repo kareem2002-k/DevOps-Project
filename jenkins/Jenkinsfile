@@ -5,7 +5,7 @@ pipeline {
  
         stage('Docker Build') {
             steps {
-                dir('app') { // Update path to where your Dockerfile is located
+                dir('../app') { // Update path to where your Dockerfile is located
                     // Change directory to where Dockerfile is located
                     echo 'Building Docker image...'
                     sh 'docker-compose build'
