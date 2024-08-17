@@ -17,9 +17,7 @@ pipeline {
             steps{
                 docker('Docker'){
                     sh '''
-                    cd app 
-                    docker-compose build
-                    docker-compose up
+                   docker --version
                     '''
                 }
             }
