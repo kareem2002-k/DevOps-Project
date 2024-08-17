@@ -1,0 +1,58 @@
+// Declarative Pipeline syntax
+pipeline {
+    agent any // Runs on any available agent
+
+    environment {
+        // Define environment variables here
+        NODE_ENV = 'production'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Check out the code from the repository
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Run build commands
+                echo 'Building...'
+                sh 'npm install'
+                sh 'npm run build'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Run tests
+                echo 'Testing...'
+                sh 'npm test'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Deploy the build artifact
+                echo 'Deploying...'
+                sh 'npm run deploy'
+            }
+        }
+    }
+
+    post {
+        always {
+            // Actions to always run, e.g., clean up
+            echo 'Cleaning up...'
+        }
+        success {
+            // Actions to run on successful build
+            echo 'Build was successful!'
+        }
+        failure {
+            // Actions to run on failed build
+            echo 'Build failed!'
+        }
+    }
+}
