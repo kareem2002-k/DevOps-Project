@@ -1,22 +1,20 @@
-document.addEventListener('DOMContentLoaded', () => {
-    updateDashboardStats();
-    updateRecentActivity();
+document.addEventListener('DOMContentLoaded', function() {
+    const totalPipelinesElement = document.getElementById('total-pipelines');
+    const activePipelinesElement = document.getElementById('active-pipelines');
+    const recentActivityElement = document.getElementById('recent-activity');
+
+    function loadDashboardData() {
+        const data = JSON.parse(localStorage.getItem('dashboardData')) || {
+            totalPipelines: 0,
+            activePipelines: 0,
+            recentActivity: []
+        };
+
+        // Populate the dashboard
+        totalPipelinesElement.textContent = data.totalPipelines;
+        activePipelinesElement.textContent = data.activePipelines;
+        recentActivityElement.innerHTML = data.recentActivity.map(activity => `<li>${activity}</li>`).join('');
+    }
+
+    loadDashboardData();
 });
-
-function updateDashboardStats() {
-    document.getElementById('totalPipelines').textContent = pipelines.length;
-    document.getElementById('activePipelines').textContent = pipelines.filter(p => p.status === 'in-progress').length;
-    document.getElementById('lastDeploymentStatus').textContent = history.length ? history[history.length - 1].status : 'N/A';
-}
-
-function updateRecentActivity() {
-    const recentActivityList = document.getElementById('recentActivity');
-    recentActivityList.innerHTML = "";
-
-    history.slice(-5).forEach(pipeline => {  // Show the last 5 activities
-        const listItem = document.createElement('li');
-        listItem.className = pipeline.status;
-        listItem.textContent = `${pipeline.name} (${pipeline.environment}) - ${pipeline.status} - ${pipeline.timestamp}`;
-        recentActivityList.appendChild(listItem);
-    });
-}
