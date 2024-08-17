@@ -21,7 +21,21 @@
             <ul id="pipeline-list">
                 <li>Loading...</li>
             </ul>
-            <button id="add-pipeline">Add Pipeline</button>
+            <button id="show-add-pipeline-form">Add Pipeline</button>
+            <div id="add-pipeline-form" class="form-container">
+                <h3>Add New Pipeline</h3>
+                <form id="pipeline-form">
+                    <label for="pipeline-name">Name:</label>
+                    <input type="text" id="pipeline-name" required>
+                    <label for="pipeline-description">Description:</label>
+                    <textarea id="pipeline-description" required></textarea>
+                    <label for="pipeline-tools">Tools:</label>
+                    <input type="text" id="pipeline-tools" required>
+                    <label for="pipeline-status">Status:</label>
+                    <input type="text" id="pipeline-status" required>
+                    <button type="submit">Add Pipeline</button>
+                </form>
+            </div>
         </section>
     </main>
     <script src="pipeline-management.js"></script>

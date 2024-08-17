@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     const pipelineListElement = document.getElementById('pipeline-list');
-    const addPipelineButton = document.getElementById('add-pipeline');
+    const addPipelineForm = document.getElementById('add-pipeline-form');
+    const showAddPipelineFormButton = document.getElementById('show-add-pipeline-form');
+    const pipelineForm = document.getElementById('pipeline-form');
 
     function loadPipelines() {
-        const pipelines = JSON.parse(localStorage.getItem('pipelines')) || [];
+        const user = JSON.parse(localStorage.getItem('loggedInUser'));
+        const pipelines = JSON.parse(localStorage.getItem(`pipelines_${user.username}`)) || [];
         pipelineListElement.innerHTML = pipelines.map(pipeline => `
             <li>
                 <strong>Name:</strong> ${pipeline.name}<br>
@@ -14,31 +17,26 @@ document.addEventListener('DOMContentLoaded', function() {
         `).join('');
     }
 
-    function addPipeline() {
-        const name = prompt('Enter pipeline name:');
-        const description = prompt('Enter pipeline description:');
-        const tools = prompt('Enter tools used (comma-separated):');
-        const status = prompt('Enter pipeline status:');
-        if (name && description && tools && status) {
-            const pipelines = JSON.parse(localStorage.getItem('pipelines')) || [];
-            pipelines.push({ name, description, tools, status });
-            localStorage.setItem('pipelines', JSON.stringify(pipelines));
-            loadPipelines();
-            updateDashboard();
-        }
+    function addPipeline(event) {
+        event.preventDefault();
+        const name = document.getElementById('pipeline-name').value;
+        const description = document.getElementById('pipeline-description').value;
+        const tools = document.getElementById('pipeline-tools').value;
+        const status = document.getElementById('pipeline-status').value;
+
+        const user = JSON.parse(localStorage.getItem('loggedInUser'));
+        const pipelines = JSON.parse(localStorage.getItem(`pipelines_${user.username}`)) || [];
+        pipelines.push({ name, description, tools, status });
+        localStorage.setItem(`pipelines_${user.username}`, JSON.stringify(pipelines));
+        loadPipelines();
     }
 
-    function updateDashboard() {
-        const totalPipelines = (JSON.parse(localStorage.getItem('pipelines')) || []).length;
-        const activePipelines = totalPipelines; // Example calculation
-        localStorage.setItem('dashboardData', JSON.stringify({
-            totalPipelines,
-            activePipelines,
-            recentActivity: JSON.parse(localStorage.getItem('activityLog')) || []
-        }));
-    }
+    showAddPipelineFormButton.addEventListener('click', function() {
+        addPipelineForm.style.display = addPipelineForm.style.display === 'none' ? 'block' : 'none';
+    });
 
-    addPipelineButton.addEventListener('click', addPipeline);
+    pipelineForm.addEventListener('submit', addPipeline);
 
     loadPipelines();
+
 });

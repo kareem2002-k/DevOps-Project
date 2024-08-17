@@ -21,7 +21,21 @@
             <ul id="activity-log">
                 <li>Loading...</li>
             </ul>
-            <button id="add-activity">Add Activity</button>
+            <button id="show-add-activity-form">Add Activity</button>
+            <div id="add-activity-form" class="form-container">
+                <h3>Add New Activity</h3>
+                <form id="activity-form">
+                    <label for="activity-description">Description:</label>
+                    <input type="text" id="activity-description" required>
+                    <label for="activity-type">Type:</label>
+                    <select id="activity-type" required>
+                        <option value="Deployment">Deployment</option>
+                        <option value="Update">Update</option>
+                        <option value="Incident">Incident</option>
+                    </select>
+                    <button type="submit">Add Activity</button>
+                </form>
+            </div>
         </section>
     </main>
     <script src="activity-log.js"></script>
