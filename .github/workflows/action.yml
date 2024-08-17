@@ -23,7 +23,7 @@ jobs:
           node-version: '18'  # Specify the Node.js version to use
 
       - name: Install dependencies
-        run: npm i  # Use `npm ci` to install dependencies from package-lock.json
+        run: cd app && npm i  # Use `npm ci` to install dependencies from package-lock.json
 
       - name: Run tests
         run: npm run test  # Replace with your test command if different
