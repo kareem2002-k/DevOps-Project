@@ -1,0 +1,35 @@
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - main  # Change to the branch you want to trigger builds on
+  pull_request:
+    branches:
+      - main  # Change to the branch you want to trigger builds on
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Specify the Node.js version to use
+
+      - name: Install dependencies
+        run: npm ci  # Use `npm ci` to install dependencies from package-lock.json
+
+      - name: Run tests
+        run: npm test  # Replace with your test command if different
+
+      - name: Upload coverage report
+        if: success() && steps.test.outputs.coverage-report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: path/to/coverage/report  # Adjust this path to where your coverage report is generated

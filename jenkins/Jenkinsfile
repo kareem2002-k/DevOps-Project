@@ -4,7 +4,8 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                nodejs('node-22') {                    sh '''
+                nodejs('node-22') {
+                           sh '''
                     cd app
                     npm ci
                     npm test
@@ -13,14 +14,6 @@ pipeline {
             }
         }
 
-        stage('Docker Test'){
-            steps{
-                docker('Docker'){
-                    sh '''
-                   docker --version
-                    '''
-                }
-            }
-        }
+ 
     }    
 }
