@@ -15,3 +15,6 @@ RUN addgroup -S app && adduser -S app -G app && chown -R app:app .
 USER app
 
 CMD [ "npm", "run", "start" ]
+
+
+
