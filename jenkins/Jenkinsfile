@@ -2,16 +2,29 @@ pipeline {
     agent any // Runs on any available agent
 
     stages {
- 
         stage('Docker Build') {
             steps {
-                dir('../app') { // Update path to where your Dockerfile is located
-                    // Change directory to where Dockerfile is located
+                dir('app') { // Path where Dockerfile and docker-compose.yaml are located
                     echo 'Building Docker image...'
                     sh 'docker-compose build'
                 }
             }
         }
-
+    }
+    
+    post {
+        always {
+            echo 'Cleaning up...'
+            sh 'docker system prune -f' // Optional: Clean up unused Docker images and containers
+        }
+        success {
+            echo 'Build was successful!'
+        }
+        failure {
+            echo 'Build failed!'
+        }
+        unstable {
+            echo 'Build is unstable!'
+        }
     }
 }

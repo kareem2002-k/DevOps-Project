@@ -1,13 +1,16 @@
+version: '3'
+
 services:
   jenkins:
     image: jenkins/jenkins:lts
     container_name: jenkins
     ports:
-      - "8081:8080"   # Change host port to 8081
-      - "50000:50000" # Agents communication with controller
+      - "8081:8080"   # Maps port 8080 inside the container to port 8081 on the host
+      - "50000:50000" # Maps port 50000 inside the container to port 50000 on the host for agent communication
     volumes:
-      - jenkins_home:/var/jenkins_home
+      - jenkins_home:/var/jenkins_home # Persists Jenkins data between container restarts
+      - /var/run/docker.sock:/var/run/docker.sock # Mount Docker socket for Jenkins
 
 volumes:
   jenkins_home:
-    name: jenkins_home
+    name: jenkins_home # Names the volume for easy reference
