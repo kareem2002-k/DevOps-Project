@@ -4,7 +4,6 @@ const socketIo = require('socket.io');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-
 // Load environment variables from .env file
 dotenv.config();
 
@@ -29,11 +28,14 @@ mongoose.connect(process.env.MONGO_URI, {
 const authRoutes = require('./routes/auth');
 const friendRoutes = require('./routes/friends');
 const conversationRoutes = require('./routes/conversations');
+const  userRoutes = require('./routes/userRoutes');
+
 
 // Use routes
 app.use('/api/auth', authRoutes);
 app.use('/api/friends', friendRoutes);
 app.use('/api/conversations', conversationRoutes);
+app.use('/api/users', userRoutes);
 
 // Real-Time Communication with Socket.IO
 io.on('connection', (socket) => {
@@ -69,4 +71,4 @@ server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-module.exports = app; // Export the app
+module.exports = server; // Export the app
