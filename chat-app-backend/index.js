@@ -39,6 +39,7 @@ const authRoutes = require('./routes/auth');
 const friendRoutes = require('./routes/friends');
 const conversationRoutes = require('./routes/conversations');
 const userRoutes = require('./routes/userRoutes');
+const Conversation = require('./models/Conversation');
 
 // Use routes
 app.use('/api/auth', authRoutes);
@@ -56,24 +57,33 @@ io.on('connection', (socket) => {
 
   // Join private room for conversation
   socket.on('joinConversation', (conversationId) => {
+    console.log(`Client joined conversation: ${conversationId}`);
     socket.join(conversationId);
   });
 
   // Send private message
   socket.on('sendMessage', async (data) => {
     const { conversationId, message, senderId } = data;
+  
     try {
+      // get user id form the username 
+      
+      
+  
       const conversation = await Conversation.findById(conversationId);
+  
       if (!conversation) {
         return socket.emit('error', { message: 'Conversation not found' });
       }
+  
       const newMessage = {
         sender: senderId,
         message: message,
       };
+  
       conversation.messages.push(newMessage);
       await conversation.save();
-
+  
       io.to(conversationId).emit('receiveMessage', newMessage);
     } catch (error) {
       console.error('Error sending message:', error.message);

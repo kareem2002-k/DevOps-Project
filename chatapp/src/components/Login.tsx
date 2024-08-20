@@ -14,6 +14,11 @@ const Login: React.FC = () => {
         password,
       });
       localStorage.setItem('token', response.data.accessToken);
+      localStorage.setItem('username', response.data.username);
+      localStorage.setItem('userId', response.data.id);
+
+      
+
       navigate('/home');
     } catch (error) {
       console.error('Login error:', error);
