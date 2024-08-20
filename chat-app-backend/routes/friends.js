@@ -39,5 +39,19 @@ router.post('/add-friend', authenticateToken, async (req, res) => {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
+router.get('/get-friends', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.user.username }).populate('friends', 'username'); // Populates friends with username
+    
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    res.json(user.friends);
+  } catch (err) {
+    console.error('Server error:', err.message);
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
 
 module.exports = router;
