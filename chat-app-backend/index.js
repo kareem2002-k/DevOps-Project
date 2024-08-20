@@ -28,14 +28,17 @@ mongoose.connect(process.env.MONGO_URI, {
 const authRoutes = require('./routes/auth');
 const friendRoutes = require('./routes/friends');
 const conversationRoutes = require('./routes/conversations');
-const  userRoutes = require('./routes/userRoutes');
-
+const userRoutes = require('./routes/userRoutes'); // Fix typo: removed extra space
 
 // Use routes
 app.use('/api/auth', authRoutes);
 app.use('/api/friends', friendRoutes);
 app.use('/api/conversations', conversationRoutes);
 app.use('/api/users', userRoutes);
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to Chat App API' });
+});
 
 // Real-Time Communication with Socket.IO
 io.on('connection', (socket) => {
@@ -49,15 +52,23 @@ io.on('connection', (socket) => {
   // Send private message
   socket.on('sendMessage', async (data) => {
     const { conversationId, message, senderId } = data;
-    const conversation = await Conversation.findById(conversationId);
-    const newMessage = {
-      sender: senderId,
-      message: message,
-    };
-    conversation.messages.push(newMessage);
-    await conversation.save();
+    try {
+      const conversation = await Conversation.findById(conversationId);
+      if (!conversation) {
+        return socket.emit('error', { message: 'Conversation not found' });
+      }
+      const newMessage = {
+        sender: senderId,
+        message: message,
+      };
+      conversation.messages.push(newMessage);
+      await conversation.save();
 
-    io.to(conversationId).emit('receiveMessage', newMessage);
+      io.to(conversationId).emit('receiveMessage', newMessage);
+    } catch (error) {
+      console.error('Error sending message:', error.message);
+      socket.emit('error', { message: 'Failed to send message' });
+    }
   });
 
   socket.on('disconnect', () => {
@@ -71,4 +82,6 @@ server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-module.exports = server; // Export the app
+
+
+module.exports = app; // Export the server

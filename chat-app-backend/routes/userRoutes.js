@@ -1,6 +1,7 @@
 const express = require('express');
+const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); // Assuming User is your Mongoose model
+
 const router = express.Router();
 
 // Middleware to authenticate the token
@@ -20,16 +21,13 @@ const authenticateToken = (req, res, next) => {
 // Get user profile
 router.get('/me', authenticateToken, async (req, res) => {
   try {
-    // Find the user based on the token's username
     const user = await User.findOne({ username: req.user.username });
     
     if (!user) {
       return res.status(404).send('User not found');
     }
 
-    // Exclude sensitive data like password before sending the response
     const { password, ...userData } = user.toObject();
-    
     res.json(userData);
   } catch (err) {
     console.error('Server error:', err.message);
