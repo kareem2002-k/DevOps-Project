@@ -10,6 +10,9 @@ services:
     volumes:
       - jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - app-network
+
 
   backend:
     build:
@@ -20,6 +23,8 @@ services:
       - ../chat-app-backend/.env
     depends_on:
       - mongo
+    networks:
+      - app-network
 
   mongo:
     image: mongo:latest
@@ -27,6 +32,8 @@ services:
       - mongo-data:/data/db
     ports:
       - "27017:27017"
+    networks:
+      - app-network
 
 volumes:
   jenkins_home:
