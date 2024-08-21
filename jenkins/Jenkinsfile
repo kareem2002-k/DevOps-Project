@@ -6,9 +6,9 @@ pipeline {
             steps {
                 nodejs('node-22') {
                            sh '''
-                    cd app
+                    cd chat-app-backend
                     npm ci
-                    npm test
+                    npx jest
                     '''
                 }
             }

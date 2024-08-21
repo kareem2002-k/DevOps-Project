@@ -1,6 +1,16 @@
 import { atom } from 'recoil';
 
-export const userIdState = atom<string | null>({
-  key: 'userIdState',
-  default: null,
+interface UserState {
+  userId: string | null;
+  username: string | null;
+  token: string | null;
+}
+
+export const userState = atom<UserState>({
+  key: 'userState', // Unique ID (with respect to other atoms/selectors)
+  default: {
+    userId: null,
+    username: null,
+    token: null,
+  }, // Default value (aka initial value)
 });

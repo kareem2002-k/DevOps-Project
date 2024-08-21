@@ -14,7 +14,7 @@ const io = socketIo(server, {
   cors: {
     origin: "http://localhost:5173", // Replace with your frontend URL
     methods: ["GET", "POST"],
-     allowedHeaders: ['Content-Type', 'authorization'],
+    allowedHeaders: ['Content-Type', 'authorization'],
   }
 });
 
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(cors({
   origin: "http://localhost:5173", // Replace with your frontend URL
   methods: ["GET", "POST"],
-   allowedHeaders: ['Content-Type', 'authorization'],
+  allowedHeaders: ['Content-Type', 'authorization'],
 }));
 
 mongoose.connect(process.env.MONGO_URI, {
@@ -51,39 +51,50 @@ app.get('/', (req, res) => {
   res.json({ message: 'Welcome to Chat App API' });
 });
 
-// Real-Time Communication with Socket.IO
 io.on('connection', (socket) => {
   console.log('New client connected');
 
   // Join private room for conversation
-  socket.on('joinConversation', (conversationId) => {
+  socket.on('joinConversation', async (conversationId) => {
     console.log(`Client joined conversation: ${conversationId}`);
     socket.join(conversationId);
+
+    try {
+      const conversation = await Conversation.findById(conversationId);
+
+      if (conversation) {
+        // Send all old messages to the user who just joined
+        socket.emit('loadOldMessages', conversation.messages);
+      } else {
+        socket.emit('error', { message: 'Conversation not found' });
+      }
+    } catch (error) {
+      console.error('Error fetching conversation:', error.message);
+      socket.emit('error', { message: 'Failed to load conversation' });
+    }
   });
 
   // Send private message
   socket.on('sendMessage', async (data) => {
-    const { conversationId, message, senderId } = data;
-  
+    const { conversationId, message, senderId , username } = data;
+
     try {
-      // get user id form the username 
-      
-      
-  
       const conversation = await Conversation.findById(conversationId);
-  
+
       if (!conversation) {
         return socket.emit('error', { message: 'Conversation not found' });
       }
-  
+
       const newMessage = {
         sender: senderId,
         message: message,
+        username: username,
+
       };
-  
+
       conversation.messages.push(newMessage);
       await conversation.save();
-  
+
       io.to(conversationId).emit('receiveMessage', newMessage);
     } catch (error) {
       console.error('Error sending message:', error.message);
