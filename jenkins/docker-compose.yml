@@ -5,13 +5,33 @@ services:
     image: jenkins/jenkins:lts
     container_name: jenkins
     ports:
-      - "8081:8080"   # Maps port 8080 inside the container to port 8081 on the host
-      - "50000:50000" # Maps port 50000 inside the container to port 50000 on the host for agent communication
+      - "8081:8080"
+      - "50000:50000"
     volumes:
-      - jenkins_home:/var/jenkins_home # Persists Jenkins data between container restarts
-      - /var/run/docker.sock:/var/run/docker.sock # Mount Docker socket for Jenkins
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  backend:
+    build:
+      context: ../chat-app-backend
+    ports:
+      - "5001:5001"
+    environment:
+      - ../chat-app-backend/.env
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
 
 volumes:
   jenkins_home:
-    name: jenkins_home # Names the volume for easy reference
-    
+    name: jenkins_home
+  mongo-data:
+    name: mongo-data
+networks:
+  app-network:
