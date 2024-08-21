@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ChartBarSquareIcon } from '@heroicons/react/20/solid';
+
 
 const StartConversationButton: React.FC<{ friendUsername: string }> = ({ friendUsername }) => {
   const navigate = useNavigate();
@@ -8,23 +10,19 @@ const StartConversationButton: React.FC<{ friendUsername: string }> = ({ friendU
 
   const startConversation = async () => {
     try {
-      // Make a POST request to start a conversation
       const response = await axios.post(
         'http://localhost:5001/api/conversations/start-conversation',
         { friendUsername },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`, // Replace with your token storage mechanism
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );
 
-        // Extract the conversation ID from the response
-        console.log(response.data);
-        const conversationId = response.data._id;
+      console.log(response.data);
+      const conversationId = response.data._id;
 
-
-      // Navigate to the chat page
       navigate(`/chat/${conversationId}`);
     } catch (err) {
       console.error('Error starting conversation:', err);
@@ -33,9 +31,11 @@ const StartConversationButton: React.FC<{ friendUsername: string }> = ({ friendU
   };
 
   return (
-    <div>
-      <button onClick={startConversation}>Start Conversation</button>
-      {error && <p>{error}</p>}
+    <div className="button-container">
+      <button className="start-button" onClick={startConversation}>
+        <ChartBarSquareIcon className="icon" /> Start Conversation
+      </button>
+      {error && <p className="error-message">{error}</p>}
     </div>
   );
 };

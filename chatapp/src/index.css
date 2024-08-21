@@ -79,4 +79,67 @@
   .send-button:hover {
     background-color: #0056b3;
   }
-  
+  /* StartConversationButton.css */
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+.start-button {
+  background: linear-gradient(135deg, #4f9deb, #70c1b3); /* Gradient color */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between icon and text */
+}
+
+.start-button:hover {
+  background: linear-gradient(135deg, #4186d1, #63b8a2); /* Darker gradient for hover */
+  transform: scale(1.05);
+}
+
+.start-button:focus {
+  outline: none;
+}
+
+.start-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: rgba(255, 255, 255, 0.3); /* Color blur effect */
+  border-radius: 50%;
+  transition: all 0.5s ease;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.start-button:hover::before {
+  background: rgba(255, 255, 255, 0.5); /* Intensified blur effect on hover */
+}
+
+.start-button .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 10px;
+}

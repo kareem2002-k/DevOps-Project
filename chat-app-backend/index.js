@@ -12,7 +12,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:5173", // Replace with your frontend URL
+    origin: "http://localhost:3000", // Replace with your frontend URL
     methods: ["GET", "POST"],
     allowedHeaders: ['Content-Type', 'authorization'],
   }
@@ -20,7 +20,7 @@ const io = socketIo(server, {
 
 app.use(express.json());
 app.use(cors({
-  origin: "http://localhost:5173", // Replace with your frontend URL
+  origin: "http://localhost:3000", // Replace with your frontend URL
   methods: ["GET", "POST"],
   allowedHeaders: ['Content-Type', 'authorization'],
 }));

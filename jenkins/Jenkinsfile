@@ -8,6 +8,7 @@ pipeline {
                            sh '''
                     cd chat-app-backend
                     npm ci
+                    npm run dev
                     npx jest
                     '''
                 }
