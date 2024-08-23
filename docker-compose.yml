@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   backend:
+    image: kareem2002k/chat-app-backend:latest  # Add image tag for Docker Hub
     build:
       context: ./chat-app-backend
     ports:
@@ -19,10 +20,11 @@ services:
       - "27017:27017"
 
   frontend:
+    image: kareem2002k/chatapp-frontend:latest  # Add image tag for Docker Hub
     build:
       context: ./chatapp
     ports:
-      - "3000:80"  # Map port 80 in the container to port 3000 on the host
+      - "3000:80"
     depends_on:
       - backend
 
