@@ -23,6 +23,10 @@ DevOps-Project/
 │   └── package.json        # Back end dependencies and scripts
 │
 ├── docker-compose.yml      # Docker Compose file defining the application
+|
+├── jenkins/
+│   ├── docker-compose.yaml          # Dockerfile for runing jenkins and backend to test
+|   └──Jenkinsfile        # to write test pipline
 │
 └── README.md               # Project documentation
 ```
