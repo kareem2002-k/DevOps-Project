@@ -1,0 +1,42 @@
+---
+- name: Deploy application using Docker Compose
+  hosts: localhost
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Ensure Docker is installed
+      ansible.builtin.package:
+        name: docker
+        state: present
+      # For Debian/Ubuntu systems, use:
+      # ansible.builtin.apt:
+      #   name: docker.io
+      #   state: present
+
+    - name: Install Docker Compose binary
+      ansible.builtin.get_url:
+        url: "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64"
+        dest: /usr/local/bin/docker-compose
+        mode: 'u+x'
+
+    - name: Verify Docker Compose installation
+      ansible.builtin.command:
+        cmd: docker-compose --version
+      register: docker_compose_version
+      changed_when: false
+
+    - name: Print Docker Compose version
+      ansible.builtin.debug:
+        msg: "Docker Compose version: {{ docker_compose_version.stdout }}"
+
+    - name: Ensure Docker service is started
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Deploy application with Docker Compose
+      community.docker.docker_compose:
+        project_src: /home/kareem/Documents/GitHub/DevOps-Project
+        state: present
+        

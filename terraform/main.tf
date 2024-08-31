@@ -4,8 +4,8 @@ provider "aws" {
 
 resource "aws_key_pair" "my_key" {
   key_name   = "my_key"
-  public_key = file("my_key.pub")  # Ensure this path is correct
-}
+  public_key = file("~/.ssh/my_new_key.pub")
+  }
 
 
 resource "aws_instance" "web" {
@@ -15,6 +15,6 @@ resource "aws_instance" "web" {
   key_name      = aws_key_pair.my_key.key_name
 
   tags = {
-    Name = "WebInstance-${count.index}"
+    Name = "Kareem-${count.index}"
   }
 }
