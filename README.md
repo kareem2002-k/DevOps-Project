@@ -131,20 +131,9 @@ Ansible is used to automate the deployment process. The `playbook.yml` installs 
 
 2. Run the Terraform with  :
    ```sh
-terraform init
-teraform apply
+      terraform init
+      steraform apply
    ```
-
-   
-
-
-
-
-
-
-
-
-
 
 ## Conclusion
 
